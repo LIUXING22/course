@@ -1,5 +1,5 @@
 create database lottery;
-
+use lottery;
 -- auto-generated definition
 create table activity
 (
