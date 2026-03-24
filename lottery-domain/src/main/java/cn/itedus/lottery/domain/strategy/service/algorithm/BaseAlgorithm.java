@@ -74,4 +74,10 @@ public abstract class BaseAlgorithm implements IDrawAlgorithm {
         return new SecureRandom().nextInt(bound) + 1;
     }
 
+
+    @Override
+    public void initAwardRateInfo(Long strategyId, List<AwardRateInfo> awardRateInfoList) {
+        // 仅存储原始概率数据
+        awardRateInfoMap.put(strategyId, awardRateInfoList);
+    }
 }

@@ -49,4 +49,7 @@ public interface IDrawAlgorithm {
      */
     String randomDraw(Long strategyId, List<String> excludeAwardIds);
 
+
+    void initAwardRateInfo(Long strategyId, List<AwardRateInfo> awardRateInfoList);
+
 }

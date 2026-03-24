@@ -31,6 +31,11 @@ public class StrategyRepository implements IStrategyRepository {
     @Resource
     private IAwardDao awardDao;
 
+    /**
+     * 通过id来查询（使用strategyDao和strategyDetailDao）来查询策略配置信息，其中都封装成相关的对象
+     * @param strategyId
+     * @return
+     */
     @Override
     public StrategyRich queryStrategyRich(Long strategyId) {
         Strategy strategy = strategyDao.queryStrategy(strategyId);
@@ -43,6 +48,7 @@ public class StrategyRepository implements IStrategyRepository {
         return awardDao.queryAwardInfo(awardId);
     }
 
+    //通过strategyId来查询没有库存的奖品列表，返回无库存的奖品id列表
     @Override
     public List<String> queryNoStockStrategyAwardList(Long strategyId) {
         return strategyDetailDao.queryNoStockStrategyAwardList(strategyId);

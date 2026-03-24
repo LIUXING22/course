@@ -21,6 +21,7 @@ public interface IStrategyDetailDao {
      */
     List<StrategyDetail> queryStrategyDetailList(Long strategyId);
 
+    //查询已经没有库存的奖品，用来后面进行排除
     /**
      * 查询无库存策略奖品ID
      * @param strategyId 策略ID

@@ -14,6 +14,7 @@ import javax.annotation.Resource;
  */
 public class DrawStrategySupport extends DrawConfig{
 
+    //仓储服务，用来实现对数据库的接口访问
     @Resource
     protected IStrategyRepository strategyRepository;
 
@@ -23,9 +24,11 @@ public class DrawStrategySupport extends DrawConfig{
      * @param strategyId 策略ID
      * @return 策略配置信息
      */
+    //用strategyid来通过数据库查询两个strategyDetailList和strategy和id，封装起来
     protected StrategyRich queryStrategyRich(Long strategyId){
         return strategyRepository.queryStrategyRich(strategyId);
     }
+
 
     /**
      * 查询奖品详情信息
