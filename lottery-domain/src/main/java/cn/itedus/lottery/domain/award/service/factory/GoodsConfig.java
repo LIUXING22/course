@@ -1,6 +1,11 @@
 package cn.itedus.lottery.domain.award.service.factory;
 
+import cn.itedus.lottery.common.Constants;
 import cn.itedus.lottery.domain.award.service.goods.IDistributionGoods;
+import cn.itedus.lottery.domain.award.service.goods.impl.CouponGoods;
+import cn.itedus.lottery.domain.award.service.goods.impl.DescGoods;
+import cn.itedus.lottery.domain.award.service.goods.impl.PhysicalGoods;
+import cn.itedus.lottery.domain.award.service.goods.impl.RedeemCodeGoods;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -33,6 +38,8 @@ public class GoodsConfig {
 
     @PostConstruct
     public void init() {
+        //初始化把各类奖品发放策略加入到Map中，后续根据奖品类型获取对应的发奖服务
+        //文字描述，兑换码，优惠卷，实物奖品分别读对应1234
         goodsMap.put(Constants.AwardType.DESC.getCode(), descGoods);
         goodsMap.put(Constants.AwardType.RedeemCodeGoods.getCode(), redeemCodeGoods);
         goodsMap.put(Constants.AwardType.CouponGoods.getCode(), couponGoods);

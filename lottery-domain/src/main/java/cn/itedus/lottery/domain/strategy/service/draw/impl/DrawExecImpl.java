@@ -22,6 +22,7 @@ public class DrawExecImpl extends AbstractDrawBase {
 
     @Override
     protected List<String> queryExcludeAwardIds(Long strategyId) {
+        //抽奖策略里面有库存数量，把库存数量为0的奖品ID查询出来，作为不在抽奖范围内的列表，这里直接调用仓储服务查询出来即可
         List<String> awardList = strategyRepository.queryNoStockStrategyAwardList(strategyId);
         logger.info("执行抽奖策略 strategyId：{}，无库存排除奖品列表ID集合 awardList：{}", strategyId, JSON.toJSONString(awardList));
         return awardList;

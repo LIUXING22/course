@@ -12,6 +12,7 @@ import javax.annotation.Resource;
  * @date: 2021/8/28
  * @Copyright： 公众号：bugstack虫洞栈 | 博客：https://bugstack.cn - 沉淀、分享、成长，让自己和他人都能有所收获！
  */
+//这里已经继承了父类的初始化，后面使用的时候直接使用父类的抽奖算法组即可，其中init使用了map来实现抽奖方法的注册
 public class DrawStrategySupport extends DrawConfig{
 
     @Resource

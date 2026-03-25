@@ -59,6 +59,9 @@ public class SpringRunnerTest {
     }
 
 
+    /**
+     * 从这里来看这个抽奖流程把
+     */
     @Test
     public void test_award() {
         // 执行抽奖
@@ -72,10 +75,12 @@ public class SpringRunnerTest {
         }
 
         // 封装发奖参数，orderId：2109313442431 为模拟ID，需要在用户参与领奖活动时生成
+        //drawawardinfo里面包含了奖品ID、奖品名称、奖品内容等信息，这些信息是发奖服务需要的参数，所以直接从抽奖结果里面获取出来，封装成发奖服务需要的参数对象goodsReq，没中奖这个对象是没有的，所以在发奖服务里面需要进行非空判断
         DrawAwardInfo drawAwardInfo = drawResult.getDrawAwardInfo();
         GoodsReq goodsReq = new GoodsReq(drawResult.getuId(), "2109313442431", drawAwardInfo.getAwardId(), drawAwardInfo.getAwardName(), drawAwardInfo.getAwardContent());
 
         // 根据 awardType 从抽奖工厂中获取对应的发奖服务
+        //使用distributionGoodsFactory.getDistributionGoodsService方法获取对应的发奖服务，传入参数drawAwardInfo.getAwardType()，根据奖品类型获取对应的发奖服务，发奖服务是一个返回的子类实现IDistributionGoods接口的实现类，调用doDistribution方法进行发奖
         IDistributionGoods distributionGoodsService = distributionGoodsFactory.getDistributionGoodsService(drawAwardInfo.getAwardType());
         DistributionRes distributionRes = distributionGoodsService.doDistribution(goodsReq);
 

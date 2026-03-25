@@ -28,7 +28,7 @@ public abstract class AbstractDrawBase extends DrawStrategySupport implements ID
 
     @Override
     public DrawResult doDrawExec(DrawReq req) {
-        // 1. 获取抽奖策略
+        // 1. 获取抽奖策略，这里包括了策略信息和奖品详情信息，封装成一个对象返回
         StrategyRich strategyRich = super.queryStrategyRich(req.getStrategyId());
         Strategy strategy = strategyRich.getStrategy();
 
@@ -41,6 +41,7 @@ public abstract class AbstractDrawBase extends DrawStrategySupport implements ID
         // 4. 执行抽奖算法
         String awardId = this.drawAlgorithm(req.getStrategyId(), drawAlgorithmGroup.get(strategy.getStrategyMode()), excludeAwardIds);
 
+        //包装抽奖结果，包含：中奖结果、奖品信息等，中奖的话奖品信息是必填的，未中奖的话奖品信息可以为空
         // 5. 包装中奖结果
         return buildDrawResult(req.getuId(), req.getStrategyId(), awardId);
     }
@@ -72,12 +73,13 @@ public abstract class AbstractDrawBase extends DrawStrategySupport implements ID
      */
     private void checkAndInitRateData(Long strategyId, Integer strategyMode, List<StrategyDetail> strategyDetailList) {
 
+        IDrawAlgorithm drawAlgorithm = drawAlgorithmGroup.get(strategyMode);
         // 非单项概率，不必存入缓存
-        if (!Constants.StrategyMode.SINGLE.getCode().equals(strategyMode)) {
+        if (!Constants.StrategyMode.SINGLE.getCode().equals(strategyMode) && drawAlgorithm.isExistRateTuple(strategyId)) {
             return;
         }
 
-        IDrawAlgorithm drawAlgorithm = drawAlgorithmGroup.get(strategyMode);
+        //IDrawAlgorithm drawAlgorithm = drawAlgorithmGroup.get(strategyMode);
 
         // 已初始化过的数据，不必重复初始化
         if (drawAlgorithm.isExistRateTuple(strategyId)) {
@@ -109,9 +111,11 @@ public abstract class AbstractDrawBase extends DrawStrategySupport implements ID
         }
 
         Award award = super.queryAwardInfoByAwardId(awardId);
+        //drawawardinfo 包含了奖品ID、奖品类型、奖品名称、奖品内容等信息，这些信息在后续发奖的时候是需要的，所以这里直接查询出来并封装成一个对象返回
         DrawAwardInfo drawAwardInfo = new DrawAwardInfo(award.getAwardId(), award.getAwardType(), award.getAwardName(), award.getAwardContent());
         logger.info("执行策略抽奖完成【已中奖】，用户：{} 策略ID：{} 奖品ID：{} 奖品名称：{}", uId, strategyId, awardId, award.getAwardName());
 
+        //包装中将结果包括：中奖结果、奖品信息等，中奖的话奖品信息是必填的，未中奖的话奖品信息可以为空
         return new DrawResult(uId, strategyId, Constants.DrawState.SUCCESS.getCode(), drawAwardInfo);
     }
 

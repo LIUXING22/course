@@ -25,6 +25,9 @@ public class DrawConfig {
     /** 抽奖策略组 */
     protected static Map<Integer, IDrawAlgorithm> drawAlgorithmGroup = new ConcurrentHashMap<>();
 
+    /**
+     * 用于初始化抽奖策略组，后续如果有新的抽奖算法加入，只需要在这里进行添加即可，这里返回的是抽奖算法的实例对象，需要使用时候直接使用方法承接
+     */
     @PostConstruct
     public void init() {
         drawAlgorithmGroup.put(Constants.StrategyMode.ENTIRETY.getCode(), entiretyRateRandomDrawAlgorithm);
